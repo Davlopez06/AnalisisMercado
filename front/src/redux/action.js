@@ -1,7 +1,9 @@
 import axios from "axios"
+import Swal from "sweetalert2";
 export const GET_ALL_DATA="GET_ALL_DATA"
 export const SET_PAGE="SET_PAGE"
 export const GET_DATA="GET_DATA"
+
 
 export const getAllData = () => async(dispatch) => {
     //Obtiene todos los personajes de la api de star wars de sus 9 paginas
@@ -9,6 +11,30 @@ export const getAllData = () => async(dispatch) => {
     .then(response=>response.data)
     .then(json=>{
         dispatch({type: GET_ALL_DATA, payload: json})
+    })
+}
+
+export const CreateData = (data) => async(dispatch) => {
+    console.log(data)
+    //Obtiene todos los personajes de la api de star wars de sus 9 paginas
+    return axios.post("http://127.0.0.1:3333/insert",data)
+    .then(()=>{
+        Swal.fire({
+            //position: 'top-end',
+            //position: 'top-end',
+            icon: 'success',
+            title: 'Se crearon los datos correctamente',
+            showConfirmButton: false,
+            timer: 2000
+        })
+    })
+    .catch((e) => {
+        console.log(e)
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Hubo un error en la creacion',
+        })
     })
 }
 
