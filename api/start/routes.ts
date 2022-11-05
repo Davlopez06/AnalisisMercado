@@ -25,6 +25,21 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
+Route.get('/create', async () => {
+  try {
+    return Database.rawQuery(`CREATE TABLE data (
+      id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+        identification int UNIQUE NOT NULL,
+      modelo VARCHAR ( 1000 ) NOT NULL,
+      factores VARCHAR ( 1000 ) NOT NULL,
+        pruebamanejo int NOT NULL,
+        satisfaction int NOT NULL
+    )`)
+  } catch (error) {
+    return error.message;
+  }
+})
+
 Route.get('/data', async () => {
   try {
     return Database.from('data').select('*')
