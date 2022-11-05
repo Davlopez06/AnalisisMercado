@@ -18,7 +18,6 @@
 |
 */
 
-import HttpContext from '@ioc:Adonis/Core/HttpContext'
 import Route from '@ioc:Adonis/Core/Route'
 import Database from '@ioc:Adonis/Lucid/Database'
 
@@ -35,7 +34,7 @@ Route.get('/data', async () => {
   
 })
 
-Route.post('/insert', async ({request,response}) => {
+Route.post('/insert', async ({request}) => {
   try {
     const data = request.only(["identification","modelo","factores","pruebamanejo","satisfaction"])
     if( !data.identification|| !data.modelo || !data.factores || !data.pruebamanejo || !data.satisfaction){
