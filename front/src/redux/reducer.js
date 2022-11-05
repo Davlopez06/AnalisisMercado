@@ -1,4 +1,4 @@
-import { GET_ALL_DATA } from "./action";
+import { DELETE, GET_ALL_DATA, GET_DATA, SET_PAGE} from "./action";
 
 const initialState = {
     allData: [],
@@ -31,6 +31,68 @@ const rootReducer = (state = initialState, action) => {
                 auxData: action.payload,
                 datas:dataIni,
                 pages: paginate
+            }
+        case SET_PAGE:
+            console.log(action.payload)
+            //Cambia la pagina que viene del action 
+            let inicio=0;
+            let dataInitial=[];
+            for (let i = ((action.payload-1)*10); i < (action.payload*10); i++) {
+                if(state.allData[i]){
+                    dataInitial.push(state.allData[i])
+                }
+            }
+            return{
+                ...state,
+                datas:dataInitial
+            }
+        case GET_DATA:
+            console.log(action.payload)
+            //Se busca el personaje y toda su informacion con el nombre
+            console.log(state.auxData)
+            let getData=state.auxData.filter(e => {
+                console.log(e.identification)
+                console.log(action.payload)
+                if(e.identification=== parseInt(action.payload)){
+                    return e
+                }
+            })
+            console.log(getData)
+            return{
+                ...state,
+                data:getData[0],
+    
+            }
+        case DELETE:
+            console.log(action.payload)
+            //Se busca el personaje y toda su informacion con el nombre
+            console.log(state.auxData)
+            let deleteData=state.auxData.filter(e => {
+                console.log(e.identification)
+                console.log(action.payload)
+                if(e.identification !== parseInt(action.payload)){
+                    return e
+                }
+            })
+            console.log(deleteData)
+            let paginatee=0;
+            let dataInit=[];
+            if(deleteData.length % 10===0){
+                paginatee=deleteData.length/10
+            }else{
+                paginatee=Math.floor(deleteData.length/10)+1
+            }
+            for (let i = 0; i < 10; i++) {
+                if(deleteData[i]){
+                    dataInit.push(deleteData[i])
+                }
+            }
+            return{
+                ...state,
+                allData: deleteData,
+                auxData: deleteData,
+                datas:dataInit,
+                pages: paginatee
             }
         default: return state
     }

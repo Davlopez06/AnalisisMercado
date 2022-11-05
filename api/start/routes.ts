@@ -76,15 +76,17 @@ Route.put('/update', async ({request}) => {
 })
 
 
-Route.delete('/delete', async ({request}) => {
+Route.delete('/delete/:identification', async ({params}) => {
   try {
-    const data = request.only(["identification"])
-    if( !data.identification){
+    const data = params.identification
+    console.log(data)
+    if( !data){
         return {error: "Falta la identificación"}
     }
+    console.log(data)
     const deletedRowsCount = await Database
     .from('data')
-    .where('identification', data.identification)
+    .where('identification', data)
     .delete()
     return deletedRowsCount
   } catch (error) {

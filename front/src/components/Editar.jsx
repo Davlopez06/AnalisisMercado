@@ -1,17 +1,21 @@
 import React from "react";
+import s from "./Editar.module.css"
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
+import { useEffect } from "react";
+import { getAllData, getData, UpdateData } from "../redux/action";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
-import s from './Create.module.css';
 import { useState } from "react";
 import Rating from '@mui/material/Rating';
-import { CreateData } from "../redux/action";
 
-
-const Create=()=>{
+const Editar=()=>{
     const dispatch = useDispatch()
+    const data=useSelector(state=>state.data)
+    const {id}=useParams()
     const [pruebamanejo,setPruebamanejo]=useState(1)
     const [satisfaction,setSatisfaction]=useState(1)
+    const datas=useSelector(state=>state.auxData)
     const [input, setInput] = useState({
         identification: 0,
         modelo: "",
@@ -19,6 +23,26 @@ const Create=()=>{
     })
     // console.log(genres)
     
+    useEffect(()=>{
+        console.log("Entra")
+        dispatch(getAllData())
+    },[])
+    useEffect(()=>{
+        if(datas.length !==0){
+            dispatch(getData(id))
+        }
+    },[datas])
+
+    useEffect(()=>{
+        setInput({
+            identification: data.identification,
+            modelo: data.modelo,
+            factores:data.factores
+        })
+        setPruebamanejo(data.pruebamanejo);
+        setSatisfaction(data.satisfaction)
+    },[data])
+
     function handleChange(e) {
         setInput({
             ...input,
@@ -43,7 +67,7 @@ const Create=()=>{
         else {
             e.preventDefault()
             console.log(input)
-            dispatch(CreateData({
+            dispatch(UpdateData({
                 identification: input.identification,
                 modelo: input.modelo,
                 factores: input.factores,
@@ -53,17 +77,10 @@ const Create=()=>{
             Swal.fire({
                 icon: "success",
                 title: "Success",
-                text: "Creado",
+                text: "Successfully  actualización",
                 confirmButtonText: "Ok",
                 confirmButtonColor: "#0b132b"
             });
-            setInput({
-                identification: 0,
-                modelo: "",
-                factores: "",
-            })
-            setPruebamanejo(1);
-            setSatisfaction(1);
         }
     }
     return (
@@ -84,6 +101,7 @@ const Create=()=>{
                                     type="text" 
                                     value={input.identification}
                                     name="identification"
+                                    readOnly
                                     onChange={(e) => handleChange(e)}
                                 />
                             </div>
@@ -136,7 +154,7 @@ const Create=()=>{
                                 />
                             </div>
                             
-                            <input className={s.btn} type={"submit"} value={"Crear"}/>
+                            <input className={s.btn} type={"submit"} value={"Actualizar"}/>
                         </div>
                     </form>
                 </div>
@@ -144,6 +162,6 @@ const Create=()=>{
             </div>
     
         )
-    }
+}
 
-export default Create;
+export default Editar;

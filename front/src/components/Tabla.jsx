@@ -1,5 +1,5 @@
 import React from "react";
-import { getAllData, setPage } from "../redux/action";
+import { DeleteData, getAllData, setPage } from "../redux/action";
 import { useEffect } from "react";
 import { useDispatch,useSelector } from "react-redux";
 import "./Tabla.css"
@@ -33,8 +33,8 @@ const Tabla = ()=>{
                         <div className="col col-3" data-label="Factor">{data.factores}</div>
                         <div className="col col-4" data-label="Prueba de manejo">{data.pruebamanejo}</div>
                         <div className="col col-5" data-label="Satisfacción">{data.satisfaction}</div>
-                        <div className="col col-6" data-label="Editar"><Link to={`/editar/:${data.identification}`} className="link1">Editar</Link></div>
-                        <div className="col col-7" data-label="Eliminar"><Link to={`/editar/:${data.identification}`} className="link1">Eliminar</Link></div>
+                        <div className="col col-6" data-label="Editar"><Link to={`/editar/${data.identification}`} className="link1">Editar</Link></div>
+                        <div className="col col-7" data-label="Eliminar"><button onClick={()=> dispatch(DeleteData({identification: parseInt(data.identification)}))} className="link1">Eliminar</button></div>
                         </li>
                     )
                 })    
