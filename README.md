@@ -70,7 +70,7 @@ La idea general es crear una aplicación en la cual se puedan ver los distintos 
 - [ ] Postgres
 
 
-#### Para su uso
+#### Para su uso :
 
   -Debe realizar npm i en la carpeta front y api
   -Para correr el front debe usar el comando `npm start`
