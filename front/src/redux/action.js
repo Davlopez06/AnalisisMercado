@@ -8,7 +8,7 @@ export const DELETE="DELETE"
 
 export const getAllData = () => async(dispatch) => {
     //Obtiene todos los personajes de la api de star wars de sus 9 paginas
-    return axios.get("http://127.0.0.1:3333/data")
+    return axios.get("https://analisismercado.onrender.com/data")
     .then(response=>response.data)
     .then(json=>{
         dispatch({type: GET_ALL_DATA, payload: json})
@@ -18,7 +18,7 @@ export const getAllData = () => async(dispatch) => {
 export const CreateData = (data) => async(dispatch) => {
     console.log(data)
     //Obtiene todos los personajes de la api de star wars de sus 9 paginas
-    return axios.post("http://127.0.0.1:3333/insert",data)
+    return axios.post("https://analisismercado.onrender.com/insert",data)
     .then(()=>{
         Swal.fire({
             //position: 'top-end',
@@ -53,7 +53,7 @@ export const getData=(id)=>(dispatch)=>{
 export const UpdateData = (data) => async(dispatch) => {
     console.log(data)
     //Obtiene todos los personajes de la api de star wars de sus 9 paginas
-    return axios.put("http://127.0.0.1:3333/update",data)
+    return axios.put("https://analisismercado.onrender.com/update",data)
     .then(()=>{
         Swal.fire({
             //position: 'top-end',
@@ -77,7 +77,7 @@ export const UpdateData = (data) => async(dispatch) => {
 export const DeleteData = (ide) => async(dispatch) => {
     console.log(ide)
     //Obtiene todos los personajes de la api de star wars de sus 9 paginas
-    return axios.delete(`http://127.0.0.1:3333/delete/${ide.identification}`)
+    return axios.delete(`https://analisismercado.onrender.com/delete/${ide.identification}`)
     .then((data)=>{
         console.log(data.data)
         Swal.fire({
