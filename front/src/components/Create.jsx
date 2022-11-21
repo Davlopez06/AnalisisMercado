@@ -27,6 +27,22 @@ const Create=()=>{
         console.log(input)
     }
 
+    const validateModelo=(modelo)=>{
+        if (modelo<1990 || modelo>2022){
+            return false
+        }else{
+            return true
+        }
+    }
+
+    const validateIdentification=(identification)=>{
+        if (identification.length>10){
+            return false
+        }else{
+            return true
+        }
+    }
+
 
     function handleSubmit(e) {
         if(!input.identification || !input.modelo || input.factores === "Seleccionar" || !satisfaction || !pruebamanejo) {
@@ -40,7 +56,7 @@ const Create=()=>{
             });
             console.log("error")
         } 
-        else {
+        else if (validateModelo(input.modelo) && validateIdentification(input.identification)){
             e.preventDefault()
             console.log(input)
             dispatch(CreateData({
@@ -50,13 +66,13 @@ const Create=()=>{
                 pruebamanejo: pruebamanejo,
                 satisfaction: satisfaction
             }))
-            Swal.fire({
-                icon: "success",
-                title: "Success",
-                text: "Creado",
-                confirmButtonText: "Ok",
-                confirmButtonColor: "#0b132b"
-            });
+            // Swal.fire({
+            //     icon: "success",
+            //     title: "Success",
+            //     text: "Creado",
+            //     confirmButtonText: "Ok",
+            //     confirmButtonColor: "#0b132b"
+            // });
             setInput({
                 identification: 0,
                 modelo: "",
@@ -64,8 +80,38 @@ const Create=()=>{
             })
             setPruebamanejo(1);
             setSatisfaction(1);
+        }else if (validateModelo(input.modelo) && !validateIdentification(input.identification)){
+            e.preventDefault()
+            Swal.fire({
+                icon: "error",
+                title: "Ohhh!",
+                text: "Identification no valida",
+                confirmButtonText: "Ok",
+                confirmButtonColor: "#0b132b"
+            });
+            console.log("error")
+        }else if(!validateModelo(input.modelo) && validateIdentification(input.identification)){
+            e.preventDefault()
+            Swal.fire({
+                icon: "error",
+                title: "Ohhh!",
+                text: "Modelo no valido",
+                confirmButtonText: "Ok",
+                confirmButtonColor: "#0b132b"
+            });
+            console.log("error")
+        }else{
+            e.preventDefault()
+            Swal.fire({
+                icon: "error",
+                title: "Ohhh!",
+                text: "Error",
+                confirmButtonText: "Ok",
+                confirmButtonColor: "#0b132b"
+            });
+            console.log("error")
         }
-    }
+        }
     return (
             <div className={s.content}>
                 <div className={s.nav}>
@@ -74,7 +120,7 @@ const Create=()=>{
                 
                 <div className={s.all}>
                     <form onSubmit={(e) => handleSubmit(e)} className={s.form}>
-                        <h3>New Data</h3>
+                        <h3>Nueva Data</h3>
                         <div className={s.containerInputs}>
                             <div>
                                 <label>Identification: </label>

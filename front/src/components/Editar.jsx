@@ -51,6 +51,22 @@ const Editar=()=>{
         console.log(input)
     }
 
+    const validateModelo=(modelo)=>{
+        if (modelo<1990 || modelo>2022){
+            return false
+        }else{
+            return true
+        }
+    }
+
+    const validateIdentification=(identification)=>{
+        if (identification.length>10){
+            return false
+        }else{
+            return true
+        }
+    }
+
 
     function handleSubmit(e) {
         if(!input.identification || !input.modelo || input.factores === "Seleccionar" || !satisfaction || !pruebamanejo) {
@@ -64,7 +80,7 @@ const Editar=()=>{
             });
             console.log("error")
         } 
-        else {
+        else if (validateModelo(input.modelo) && validateIdentification(input.identification)) {
             e.preventDefault()
             console.log(input)
             dispatch(UpdateData({
@@ -81,6 +97,26 @@ const Editar=()=>{
                 confirmButtonText: "Ok",
                 confirmButtonColor: "#0b132b"
             });
+        }else if (validateModelo(input.modelo) && !validateIdentification(input.identification)){
+            e.preventDefault()
+            Swal.fire({
+                icon: "error",
+                title: "Ohhh!",
+                text: "Modelo no valido",
+                confirmButtonText: "Ok",
+                confirmButtonColor: "#0b132b"
+            });
+            console.log("error")
+        }else{
+            e.preventDefault()
+            Swal.fire({
+                icon: "error",
+                title: "Ohhh!",
+                text: "Modelo no valido",
+                confirmButtonText: "Ok",
+                confirmButtonColor: "#0b132b"
+            });
+            console.log("error")
         }
     }
     return (
